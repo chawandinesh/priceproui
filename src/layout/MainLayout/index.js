@@ -12,11 +12,13 @@ import Header from './Header';
 import Sidebar from './Sidebar';
 import Customization from '../Customization';
 import navigation from 'menu-items';
-import { drawerWidth } from 'store/constant';
-import { SET_MENU } from 'store/actions';
+import { drawerWidth } from 'utils/constant';
+// import { SET_MENU } from 'store/actions';
+const { SET_MENU } = uiActionTypes;
 
 // assets
 import { IconChevronRight } from '@tabler/icons';
+import { uiActionTypes } from 'redux/actionTypes';
 
 // styles
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({

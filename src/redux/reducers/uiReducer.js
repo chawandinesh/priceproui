@@ -2,7 +2,7 @@
 import config from 'config';
 
 // action - state management
-import * as actionTypes from './actions';
+import { uiActionTypes } from '../actionTypes';
 
 export const initialState = {
     isOpen: [], // for active default menu
@@ -13,26 +13,26 @@ export const initialState = {
 
 // ==============================|| CUSTOMIZATION REDUCER ||============================== //
 
-const customizationReducer = (state = initialState, action) => {
+export const uiReducer = (state = initialState, action) => {
     let id;
     switch (action.type) {
-        case actionTypes.MENU_OPEN:
+        case uiActionTypes.MENU_OPEN:
             id = action.id;
             return {
                 ...state,
                 isOpen: [id]
             };
-        case actionTypes.SET_MENU:
+        case uiActionTypes.SET_MENU:
             return {
                 ...state,
                 opened: action.opened
             };
-        case actionTypes.SET_FONT_FAMILY:
+        case uiActionTypes.SET_FONT_FAMILY:
             return {
                 ...state,
                 fontFamily: action.fontFamily
             };
-        case actionTypes.SET_BORDER_RADIUS:
+        case uiActionTypes.SET_BORDER_RADIUS:
             return {
                 ...state,
                 borderRadius: action.borderRadius
@@ -41,5 +41,3 @@ const customizationReducer = (state = initialState, action) => {
             return state;
     }
 };
-
-export default customizationReducer;
