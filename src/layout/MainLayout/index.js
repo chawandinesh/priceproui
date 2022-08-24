@@ -64,7 +64,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({
 
 // ==============================|| MAIN LAYOUT ||============================== //
 
-const MainLayout = () => {
+const MainLayout = ({ showToggle = true, showSidebar = true, showSearchBar = false, title = 'PricePro', showNotification = true }) => {
     const theme = useTheme();
     const matchDownMd = useMediaQuery(theme.breakpoints.down('lg'));
 
@@ -95,12 +95,18 @@ const MainLayout = () => {
                 }}
             >
                 <Toolbar>
-                    <Header handleLeftDrawerToggle={handleLeftDrawerToggle} />
+                    <Header
+                        title={title}
+                        showNotification={showNotification}
+                        showSearchBar={showSearchBar}
+                        showToggle={showToggle}
+                        handleLeftDrawerToggle={handleLeftDrawerToggle}
+                    />
                 </Toolbar>
             </AppBar>
 
             {/* drawer */}
-            <Sidebar drawerOpen={leftDrawerOpened} drawerToggle={handleLeftDrawerToggle} />
+            {showSidebar ? <Sidebar drawerOpen={leftDrawerOpened} drawerToggle={handleLeftDrawerToggle} /> : null}
 
             {/* main content */}
             <Main theme={theme} open={leftDrawerOpened}>
@@ -108,7 +114,7 @@ const MainLayout = () => {
                 <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
                 <Outlet />
             </Main>
-            <Customization />
+            {/* <Customization /> */}
         </Box>
     );
 };
