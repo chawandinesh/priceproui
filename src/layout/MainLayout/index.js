@@ -111,7 +111,7 @@ const MainLayout = ({ showToggle = true, showSidebar = true, showSearchBar = fal
             {showSidebar ? <Sidebar drawerOpen={leftDrawerOpened} drawerToggle={handleLeftDrawerToggle} /> : null}
 
             {/* main content */}
-            <Main theme={theme} open={leftDrawerOpened}>
+            <Main theme={theme} style={{ marginLeft: '20px' }} open={leftDrawerOpened}>
                 {/* breadcrumb */}
                 <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
                 <Outlet />

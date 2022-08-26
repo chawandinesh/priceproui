@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Avatar, Box, ButtonBase } from '@mui/material';
+import { Avatar, Box, Button, ButtonBase } from '@mui/material';
 
 // project imports
 import LogoSection from '../LogoSection';
@@ -12,11 +12,33 @@ import NotificationSection from './NotificationSection';
 
 // assets
 import { IconMenu2 } from '@tabler/icons';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles({
+    authButton: {
+        margin: '5px'
+    }
+});
 
 // ==============================|| MAIN NAVBAR / HEADER ||============================== //
 
+const AuthButtons = () => {
+    const classes = useStyles();
+    return (
+        <Box justifyContent="space-between" display="flex">
+            <Button color="primary" variant="contained" className={classes.authButton}>
+                Login
+            </Button>
+            <Button color="primary" variant="outlined" className={classes.authButton}>
+                Register
+            </Button>
+        </Box>
+    );
+};
+
 const Header = ({ handleLeftDrawerToggle, showToggle = true, showSearchBar = true, title = 'PricePro', showNotification = true }) => {
     const theme = useTheme();
+    const isLogin = false;
 
     return (
         <>
@@ -64,7 +86,7 @@ const Header = ({ handleLeftDrawerToggle, showToggle = true, showSearchBar = tru
 
             {/* notification & profile */}
             {showNotification ? <NotificationSection /> : null}
-            <ProfileSection />
+            {isLogin ? <ProfileSection /> : <AuthButtons />}
         </>
     );
 };

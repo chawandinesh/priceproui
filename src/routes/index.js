@@ -8,5 +8,5 @@ import HomeRoutes from './HomeRoutes';
 // ==============================|| ROUTING RENDER ||============================== //
 
 export default function ThemeRoutes() {
-    return useRoutes([MainRoutes, AuthenticationRoutes, HomeRoutes]);
+    return useRoutes([HomeRoutes, MainRoutes, AuthenticationRoutes]);
 }
