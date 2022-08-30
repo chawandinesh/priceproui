@@ -13,6 +13,8 @@ import NotificationSection from './NotificationSection';
 // assets
 import { IconMenu2 } from '@tabler/icons';
 import { makeStyles } from '@mui/styles';
+import { useNavigate } from 'react-router';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles({
     authButton: {
@@ -23,13 +25,14 @@ const useStyles = makeStyles({
 // ==============================|| MAIN NAVBAR / HEADER ||============================== //
 
 const AuthButtons = () => {
+    const navigate = useNavigate();
     const classes = useStyles();
     return (
         <Box justifyContent="space-between" display="flex">
-            <Button color="primary" variant="contained" className={classes.authButton}>
+            <Button color="primary" variant="contained" className={classes.authButton} onClick={() => navigate('/login')}>
                 Login
             </Button>
-            <Button color="primary" variant="outlined" className={classes.authButton}>
+            <Button color="primary" variant="outlined" className={classes.authButton} onClick={() => navigate('/register')}>
                 Register
             </Button>
         </Box>
@@ -37,6 +40,7 @@ const AuthButtons = () => {
 };
 
 const Header = ({ handleLeftDrawerToggle, showToggle = true, showSearchBar = true, title = 'PricePro', showNotification = true }) => {
+    const loginDetails = useSelector((state) => _.get(state, 'login', ''));
     const theme = useTheme();
     const isLogin = false;
 
@@ -85,14 +89,18 @@ const Header = ({ handleLeftDrawerToggle, showToggle = true, showSearchBar = tru
             <Box sx={{ flexGrow: 1 }} />
 
             {/* notification & profile */}
-            {showNotification ? <NotificationSection /> : null}
-            {isLogin ? <ProfileSection /> : <AuthButtons />}
+            {/* {showNotification ? <NotificationSection /> : null} */}
+            {loginDetails.loginDetails ? <ProfileSection /> : <AuthButtons />}
         </>
     );
 };
 
 Header.propTypes = {
-    handleLeftDrawerToggle: PropTypes.func
+    handleLeftDrawerToggle: PropTypes.func,
+    showToggle: PropTypes.bool,
+    showSearchBar: PropTypes.bool,
+    title: PropTypes.string,
+    showNotification: PropTypes.bool
 };
 
 export default Header;

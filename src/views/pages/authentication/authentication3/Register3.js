@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -10,13 +10,27 @@ import AuthCardWrapper from '../AuthCardWrapper';
 import Logo from 'ui-component/Logo';
 import AuthRegister from '../auth-forms/AuthRegister';
 import AuthFooter from 'ui-component/cards/AuthFooter';
+import { projectTitle } from 'utils/constant';
+import { makeStyles } from '@mui/styles';
 
 // assets
 
 // ===============================|| AUTH3 - REGISTER ||=============================== //
+const useStyles = makeStyles((theme) => {
+    return {
+        projectTitle: {
+            textDecoration: 'none'
+        },
+        projectTitleText: {
+            color: theme.palette.secondary.main
+        }
+    };
+});
 
 const Register = () => {
     const theme = useTheme();
+    const navigate = useNavigate();
+    const classes = useStyles();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
 
     return (
@@ -28,36 +42,11 @@ const Register = () => {
                             <AuthCardWrapper>
                                 <Grid container spacing={2} alignItems="center" justifyContent="center">
                                     <Grid item sx={{ mb: 3 }}>
-                                        <Link to="#">
-                                            <Logo />
+                                        <Link to="#" className={classes.projectTitle}>
+                                            <Typography className={classes.projectTitleText} variant="h2" component="h2">
+                                                {projectTitle}
+                                            </Typography>
                                         </Link>
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <Grid
-                                            container
-                                            direction={matchDownSM ? 'column-reverse' : 'row'}
-                                            alignItems="center"
-                                            justifyContent="center"
-                                        >
-                                            <Grid item>
-                                                <Stack alignItems="center" justifyContent="center" spacing={1}>
-                                                    <Typography
-                                                        color={theme.palette.secondary.main}
-                                                        gutterBottom
-                                                        variant={matchDownSM ? 'h3' : 'h2'}
-                                                    >
-                                                        Sign up
-                                                    </Typography>
-                                                    <Typography
-                                                        variant="caption"
-                                                        fontSize="16px"
-                                                        textAlign={matchDownSM ? 'center' : 'inherit'}
-                                                    >
-                                                        Enter your credentials to continue
-                                                    </Typography>
-                                                </Stack>
-                                            </Grid>
-                                        </Grid>
                                     </Grid>
                                     <Grid item xs={12}>
                                         <AuthRegister />
@@ -67,12 +56,7 @@ const Register = () => {
                                     </Grid>
                                     <Grid item xs={12}>
                                         <Grid item container direction="column" alignItems="center" xs={12}>
-                                            <Typography
-                                                component={Link}
-                                                to="/pages/login/login3"
-                                                variant="subtitle1"
-                                                sx={{ textDecoration: 'none' }}
-                                            >
+                                            <Typography component={Link} to="/login" variant="subtitle1" sx={{ textDecoration: 'none' }}>
                                                 Already have an account?
                                             </Typography>
                                         </Grid>
@@ -81,9 +65,6 @@ const Register = () => {
                             </AuthCardWrapper>
                         </Grid>
                     </Grid>
-                </Grid>
-                <Grid item xs={12} sx={{ m: 3, mt: 1 }}>
-                    <AuthFooter />
                 </Grid>
             </Grid>
         </AuthWrapper1>

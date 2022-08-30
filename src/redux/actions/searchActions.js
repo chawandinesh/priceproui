@@ -2,7 +2,6 @@ import { getSearchResults } from '../../api';
 import { searchActionTypes } from '../actionTypes';
 
 const atnGetSearchResults = (searchText) => {
-    console.log(searchText);
     return async (dispatch, getState) => {
         dispatch({ type: searchActionTypes.LOADING });
         await getSearchResults(searchText)

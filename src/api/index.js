@@ -12,11 +12,26 @@ const getSearchResults = async (text) => {
     });
 };
 
-const getSearchResult = async (text) => {
+const getAuthtoken = async (data) => {
     return await axios({
-        method: 'GET',
-        url: `https://demo.dataverse.org/api/search?q=${text}`
+        method: 'POST',
+        url: `${baseUrl}/auth/token/`,
+        data: data
     });
 };
 
-export { getSearchResults };
+const registerUser = async (data) => {
+    const state = JSON.parse(localStorage.getItem('persist:pricepro'));
+    const loginDetails = JSON.parse(_.get(state, 'login'));
+    const accessToken = _.get(loginDetails, 'loginDetails.access');
+    return await axios({
+        method: 'POST',
+        url: `${baseUrl}/user`,
+        headers: {
+            Authorization: `Bearer ${accessToken}`
+        },
+        data: data
+    });
+};
+
+export { getSearchResults, getAuthtoken, registerUser };

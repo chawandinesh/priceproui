@@ -21,7 +21,11 @@ import { IconChevronRight } from '@tabler/icons';
 import { uiActionTypes } from 'redux/actionTypes';
 
 // styles
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
+const Main = styled('main', {
+    shouldForwardProp: (prop) => {
+        return prop !== 'open';
+    }
+})(({ theme, open }) => ({
     ...theme.typography.mainContent,
     ...(!open && {
         borderBottomLeftRadius: 0,
@@ -82,6 +86,15 @@ const MainLayout = ({ showToggle = true, showSidebar = true, showSearchBar = fal
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [matchDownMd]);
 
+    const pathName = window.location.pathname;
+    const mainLayout = () => {
+        if (pathName === '/search-home') {
+            return { marginLeft: '20px' };
+        } else {
+            return {};
+        }
+    };
+
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
@@ -111,7 +124,7 @@ const MainLayout = ({ showToggle = true, showSidebar = true, showSearchBar = fal
             {showSidebar ? <Sidebar drawerOpen={leftDrawerOpened} drawerToggle={handleLeftDrawerToggle} /> : null}
 
             {/* main content */}
-            <Main theme={theme} style={{ marginLeft: '20px' }} open={leftDrawerOpened}>
+            <Main theme={theme} style={mainLayout()} open={leftDrawerOpened}>
                 {/* breadcrumb */}
                 <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
                 <Outlet />
@@ -119,6 +132,14 @@ const MainLayout = ({ showToggle = true, showSidebar = true, showSearchBar = fal
             {/* <Customization /> */}
         </Box>
     );
+};
+
+MainLayout.propTypes = {
+    showToggle: Proptyp.boolean,
+    showSidebar: Proptyp.boolean,
+    showSearchBar: Proptyp.boolean,
+    title: Proptyp.string,
+    showNotification: Proptyp.boolean
 };
 
 export default MainLayout;

@@ -28,7 +28,6 @@ const HomeSearch = () => {
     const search = useSelector((state) => state.search);
     const { searchResults, error, loading } = search;
     const [text, setText] = useState('');
-    console.log(searchResults);
     const handleChangeText = (e) => {
         setText(e.target.value);
     };
@@ -52,7 +51,6 @@ const HomeSearch = () => {
                                         onChange={handleChangeText}
                                         name="fname"
                                         onKeyDownCapture={(event) => {
-                                            console.log(event.key);
                                             if (event.key === 'Enter') {
                                                 handleSearch();
                                             }
