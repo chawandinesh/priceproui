@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
-
+import PropTypes from 'prop-types';
 // material-ui
 import { styled, useTheme } from '@mui/material/styles';
 import { AppBar, Box, CssBaseline, Toolbar, useMediaQuery } from '@mui/material';
-
+PropTypes;
 // project imports
 import Breadcrumbs from 'ui-component/extended/Breadcrumbs';
 import Header from './Header';
@@ -135,11 +135,11 @@ const MainLayout = ({ showToggle = true, showSidebar = true, showSearchBar = fal
 };
 
 MainLayout.propTypes = {
-    showToggle: Proptyp.boolean,
-    showSidebar: Proptyp.boolean,
-    showSearchBar: Proptyp.boolean,
-    title: Proptyp.string,
-    showNotification: Proptyp.boolean
+    showToggle: PropTypes.boolean,
+    showSidebar: PropTypes.boolean,
+    showSearchBar: PropTypes.boolean,
+    title: PropTypes.string,
+    showNotification: PropTypes.boolean
 };
 
 export default MainLayout;

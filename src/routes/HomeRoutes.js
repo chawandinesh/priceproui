@@ -1,6 +1,6 @@
 import MainLayout from 'layout/MainLayout';
 import { lazy } from 'react';
-import { Navigate } from 'react-router';
+import { Navigate, Route } from 'react-router-dom';
 
 // project imports
 import Loadable from 'ui-component/Loadable';

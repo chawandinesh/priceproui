@@ -55,6 +55,7 @@ const HomeSearch = () => {
                                                 handleSearch();
                                             }
                                         }}
+                                        InputProps={{ autoFocus: true }}
                                         type="text"
                                         variant="outlined"
                                         defaultValue=""
