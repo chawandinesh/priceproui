@@ -26,9 +26,8 @@ const registerUser = async (data) => {
     const accessToken = _.get(loginDetails, 'loginDetails.access');
     return await axios({
         method: 'POST',
-        url: `${baseUrl}/user/register`,
+        url: `${baseUrl}/user/register/`,
         headers: {
-            Authorization: `Bearer ${accessToken}`,
             'Content-Type': 'application/json'
         },
         data: data
