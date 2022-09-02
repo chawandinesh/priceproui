@@ -88,7 +88,7 @@ const MainLayout = ({ showToggle = true, showSidebar = true, showSearchBar = fal
 
     const pathName = window.location.pathname;
     const mainLayout = () => {
-        if (pathName === '/search-home') {
+        if (pathName === '/search') {
             return { marginLeft: '20px' };
         } else {
             return {};

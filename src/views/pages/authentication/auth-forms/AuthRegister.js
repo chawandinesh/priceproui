@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import PhoneInput from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -36,6 +38,7 @@ import { strengthColor, strengthIndicator } from 'utils/password-strength';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { atnRegisterUser } from 'redux/actions/registerActions';
+import PhoneNumberInput from 'ui-component/components/PhoneNumberInput';
 
 // ===========================|| FIREBASE - REGISTER ||=========================== //
 
@@ -46,8 +49,6 @@ const FirebaseRegister = ({ ...others }) => {
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
     const customization = useSelector((state) => state.customization);
     const [showPassword, setShowPassword] = useState(false);
-    const [checked, setChecked] = useState(true);
-
     const [strength, setStrength] = useState(0);
     const [level, setLevel] = useState();
 
@@ -88,15 +89,18 @@ const FirebaseRegister = ({ ...others }) => {
                     email: '',
                     password: '',
                     first_name: '',
-                    last_name: ''
+                    last_name: '',
+                    phone_no: ''
                 }}
                 validationSchema={Yup.object().shape({
                     email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
                     password: Yup.string().max(255).required('Password is required'),
-                    first_name: Yup.string().required('First name is required')
+                    first_name: Yup.string().required('First name is required'),
+                    last_name: Yup.string().required('Last name is required'),
+                    phone_no: Yup.string().required('Phone number is required')
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-                    values.username = `${values.first_name} ${values.last_name}`;
+                    values.username = values.email.split('@')[0];
                     dispatch(atnRegisterUser(values));
 
                     try {
@@ -114,145 +118,171 @@ const FirebaseRegister = ({ ...others }) => {
                     }
                 }}
             >
-                {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
-                    <form noValidate onSubmit={handleSubmit} {...others}>
-                        <Grid container spacing={matchDownSM ? 0 : 2}>
-                            <Grid item xs={12} sm={6}>
-                                <FormControl
-                                    fullWidth
-                                    error={Boolean(touched.first_name && errors.first_name)}
-                                    sx={{ ...theme.typography.customInput }}
-                                >
-                                    <InputLabel htmlFor="outlined-adornment-email-register">First Name</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-email-register"
-                                        type="text"
-                                        value={values.first_name}
-                                        name="first_name"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        inputProps={{}}
-                                    />
-                                    {touched.first_name && errors.first_name && (
-                                        <FormHelperText error id="standard-weight-helper-text--register">
-                                            {errors.first_name}
-                                        </FormHelperText>
-                                    )}
-                                </FormControl>
+                {({ errors, handleBlur, handleChange, setFieldValue, handleSubmit, isSubmitting, touched, values }) => {
+                    return (
+                        <form noValidate onSubmit={handleSubmit} {...others}>
+                            <Grid container spacing={matchDownSM ? 0 : 2}>
+                                <Grid item xs={12} sm={6}>
+                                    <FormControl
+                                        fullWidth
+                                        error={Boolean(touched.first_name && errors.first_name)}
+                                        sx={{ ...theme.typography.customInput }}
+                                    >
+                                        <InputLabel htmlFor="outlined-adornment-email-register">First Name</InputLabel>
+                                        <OutlinedInput
+                                            id="outlined-adornment-email-register"
+                                            type="text"
+                                            value={values.first_name}
+                                            name="first_name"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            inputProps={{}}
+                                        />
+                                        {touched.first_name && errors.first_name && (
+                                            <FormHelperText error id="standard-weight-helper-text--register">
+                                                {errors.first_name}
+                                            </FormHelperText>
+                                        )}
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <FormControl
+                                        fullWidth
+                                        error={Boolean(touched.last_name && errors.last_name)}
+                                        sx={{ ...theme.typography.customInput }}
+                                    >
+                                        <InputLabel htmlFor="outlined-adornment-email-register">Last Name</InputLabel>
+                                        <OutlinedInput
+                                            id="outlined-adornment-email-register"
+                                            type="text"
+                                            value={values.last_name}
+                                            name="last_name"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            inputProps={{}}
+                                        />
+                                        {touched.last_name && errors.last_name && (
+                                            <FormHelperText error id="standard-weight-helper-text--register">
+                                                {errors.last_name}
+                                            </FormHelperText>
+                                        )}
+                                    </FormControl>
+                                </Grid>
                             </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    fullWidth
-                                    label="Last Name"
-                                    margin="normal"
-                                    name="last_name"
-                                    type="text"
+                            <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
+                                <InputLabel htmlFor="outlined-adornment-email-register">Email Address / Username</InputLabel>
+                                <OutlinedInput
+                                    id="outlined-adornment-email-register"
+                                    type="email"
+                                    value={values.email}
+                                    name="email"
+                                    onBlur={handleBlur}
                                     onChange={handleChange}
-                                    defaultValue=""
-                                    sx={{ ...theme.typography.customInput }}
+                                    inputProps={{}}
                                 />
-                            </Grid>
-                        </Grid>
-                        <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
-                            <InputLabel htmlFor="outlined-adornment-email-register">Email Address / Username</InputLabel>
-                            <OutlinedInput
-                                id="outlined-adornment-email-register"
-                                type="email"
-                                value={values.email}
-                                name="email"
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                                inputProps={{}}
-                            />
-                            {touched.email && errors.email && (
-                                <FormHelperText error id="standard-weight-helper-text--register">
-                                    {errors.email}
-                                </FormHelperText>
-                            )}
-                        </FormControl>
-
-                        <FormControl
-                            fullWidth
-                            error={Boolean(touched.password && errors.password)}
-                            sx={{ ...theme.typography.customInput }}
-                        >
-                            <InputLabel htmlFor="outlined-adornment-password-register">Password</InputLabel>
-                            <OutlinedInput
-                                id="outlined-adornment-password-register"
-                                type={showPassword ? 'text' : 'password'}
-                                value={values.password}
-                                name="password"
-                                label="Password"
-                                onBlur={handleBlur}
-                                onChange={(e) => {
-                                    handleChange(e);
-                                    changePassword(e.target.value);
-                                }}
-                                endAdornment={
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                            aria-label="toggle password visibility"
-                                            onClick={handleClickShowPassword}
-                                            onMouseDown={handleMouseDownPassword}
-                                            edge="end"
-                                            size="large"
-                                        >
-                                            {showPassword ? <Visibility /> : <VisibilityOff />}
-                                        </IconButton>
-                                    </InputAdornment>
-                                }
-                                inputProps={{}}
-                            />
-                            {touched.password && errors.password && (
-                                <FormHelperText error id="standard-weight-helper-text-password-register">
-                                    {errors.password}
-                                </FormHelperText>
-                            )}
-                        </FormControl>
-
-                        {strength !== 0 && (
-                            <FormControl fullWidth>
-                                <Box sx={{ mb: 2 }}>
-                                    <Grid container spacing={2} alignItems="center">
-                                        <Grid item>
-                                            <Box
-                                                style={{ backgroundColor: level?.color }}
-                                                sx={{ width: 85, height: 8, borderRadius: '7px' }}
-                                            />
-                                        </Grid>
-                                        <Grid item>
-                                            <Typography variant="subtitle1" fontSize="0.75rem">
-                                                {level?.label}
-                                            </Typography>
-                                        </Grid>
-                                    </Grid>
-                                </Box>
+                                {touched.email && errors.email && (
+                                    <FormHelperText error id="standard-weight-helper-text--register">
+                                        {errors.email}
+                                    </FormHelperText>
+                                )}
                             </FormControl>
-                        )}
 
-                        {errors.submit && (
-                            <Box sx={{ mt: 3 }}>
-                                <FormHelperText error>{errors.submit}</FormHelperText>
+                            <FormControl
+                                fullWidth
+                                error={Boolean(touched.password && errors.password)}
+                                sx={{ ...theme.typography.customInput }}
+                            >
+                                <InputLabel htmlFor="outlined-adornment-password-register">Password</InputLabel>
+                                <OutlinedInput
+                                    id="outlined-adornment-password-register"
+                                    type={showPassword ? 'text' : 'password'}
+                                    value={values.password}
+                                    name="password"
+                                    label="Password"
+                                    onBlur={handleBlur}
+                                    onChange={(e) => {
+                                        handleChange(e);
+                                        changePassword(e.target.value);
+                                    }}
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                onClick={handleClickShowPassword}
+                                                onMouseDown={handleMouseDownPassword}
+                                                edge="end"
+                                                size="large"
+                                            >
+                                                {showPassword ? <Visibility /> : <VisibilityOff />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    }
+                                    inputProps={{}}
+                                />
+                                {touched.password && errors.password && (
+                                    <FormHelperText error id="standard-weight-helper-text-password-register">
+                                        {errors.password}
+                                    </FormHelperText>
+                                )}
+                            </FormControl>
+
+                            {strength !== 0 && (
+                                <FormControl fullWidth>
+                                    <Box sx={{ mb: 2 }}>
+                                        <Grid container spacing={2} alignItems="center">
+                                            <Grid item>
+                                                <Box
+                                                    style={{ backgroundColor: level?.color }}
+                                                    sx={{ width: 85, height: 8, borderRadius: '7px' }}
+                                                />
+                                            </Grid>
+                                            <Grid item>
+                                                <Typography variant="subtitle1" fontSize="0.75rem">
+                                                    {level?.label}
+                                                </Typography>
+                                            </Grid>
+                                        </Grid>
+                                    </Box>
+                                </FormControl>
+                            )}
+
+                            <PhoneInput
+                                placeholder="Enter phone number"
+                                theme={theme}
+                                value={values.phone_no}
+                                onChange={(value) => {
+                                    setFieldValue('phone_no', value);
+                                }}
+                                handleBlur={handleBlur}
+                                touched={touched}
+                                errors={errors}
+                                inputComponent={PhoneNumberInput}
+                            />
+
+                            {errors.submit && (
+                                <Box sx={{ mt: 3 }}>
+                                    <FormHelperText error>{errors.submit}</FormHelperText>
+                                </Box>
+                            )}
+
+                            <Box sx={{ mt: 2 }}>
+                                <AnimateButton>
+                                    <Button
+                                        disableElevation
+                                        disabled={isSubmitting}
+                                        fullWidth
+                                        size="large"
+                                        type="submit"
+                                        variant="contained"
+                                        color="secondary"
+                                    >
+                                        Sign up
+                                    </Button>
+                                </AnimateButton>
                             </Box>
-                        )}
-
-                        <Box sx={{ mt: 2 }}>
-                            <AnimateButton>
-                                <Button
-                                    disableElevation
-                                    disabled={isSubmitting}
-                                    fullWidth
-                                    size="large"
-                                    type="submit"
-                                    variant="contained"
-                                    color="secondary"
-                                >
-                                    Sign up
-                                </Button>
-                            </AnimateButton>
-                        </Box>
-                    </form>
-                )}
+                        </form>
+                    );
+                }}
             </Formik>
         </>
     );

@@ -59,7 +59,7 @@ const ProfileSection = () => {
     const anchorRef = useRef(null);
     const handleLogout = async () => {
         dispatch(atnLogout());
-        navigate('/search-home');
+        navigate('/search');
     };
 
     const handleClose = (event) => {

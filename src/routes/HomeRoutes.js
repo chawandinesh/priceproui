@@ -16,10 +16,10 @@ const HomeRoutes = {
     children: [
         {
             path: '/',
-            element: <Navigate to="/search-home" />
+            element: <Navigate to="/search" />
         },
         {
-            path: 'search-home',
+            path: 'search',
             element: <HomeSearch />
         }
     ]
