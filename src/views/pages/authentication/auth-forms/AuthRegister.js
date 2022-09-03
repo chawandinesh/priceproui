@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
@@ -45,6 +45,7 @@ import PhoneNumberInput from 'ui-component/components/PhoneNumberInput';
 const FirebaseRegister = ({ ...others }) => {
     const dispatch = useDispatch();
     const theme = useTheme();
+    const navigate = useNavigate();
     const scriptedRef = useScriptRef();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
     const customization = useSelector((state) => state.customization);
@@ -101,7 +102,7 @@ const FirebaseRegister = ({ ...others }) => {
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     values.username = values.email.split('@')[0];
-                    dispatch(atnRegisterUser(values));
+                    dispatch(atnRegisterUser(values, navigate));
 
                     try {
                         if (scriptedRef.current) {

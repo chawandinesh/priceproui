@@ -11,12 +11,27 @@ import TotalIncomeDarkCard from './TotalIncomeDarkCard';
 import TotalIncomeLightCard from './TotalIncomeLightCard';
 import TotalGrowthBarChart from './TotalGrowthBarChart';
 import { gridSpacing } from 'utils/constant';
+import { getAllTrackingItems } from 'api';
+import { atnAllTrackingItemsActions } from 'redux/actions/allTrackingProductsActions';
+import { _, useDispatch, useSelector, Box } from 'utils/imports';
+import ProductCard from 'views/pages/home-search/ProductCard';
 
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 
 const Dashboard = () => {
     const [isLoading, setLoading] = useState(true);
+    const dispatch = useDispatch();
+    const allTrackingItems = useSelector((state) => _.get(state, 'allTrackingItems.trackingItems'));
+    const getTrackingProducts = async () => {
+        try {
+            const trackingProducts = await getAllTrackingItems();
+            console.log(trackingProducts);
+        } catch (err) {}
+    };
+
     useEffect(() => {
+        dispatch(atnAllTrackingItemsActions());
+        getTrackingProducts();
         setLoading(false);
     }, []);
 
@@ -24,10 +39,30 @@ const Dashboard = () => {
         <Grid container spacing={gridSpacing}>
             <Grid item xs={12}>
                 <Grid container spacing={gridSpacing}>
-                    <Grid item lg={4} md={6} sm={6} xs={12}>
-                        <EarningCard isLoading={isLoading} />
-                    </Grid>
-                    <Grid item lg={4} md={6} sm={6} xs={12}>
+                    {_.size(allTrackingItems) ? (
+                        allTrackingItems.map((each, idx) => (
+                            <Grid item xs={12} sm={6} lg={3} key={idx}>
+                                <ProductCard
+                                    isDashboardItem={true}
+                                    desc={'--'}
+                                    image={each?.image}
+                                    productName={each?.title}
+                                    link={each?.link}
+                                    rating={each?.rating}
+                                    id={each?.id}
+                                    price={each?.bestPrice}
+                                    inStock={each?.inStock}
+                                    store={_.get(each, 'store')}
+                                    enableAddToTracking={false}
+                                />
+                            </Grid>
+                        ))
+                    ) : (
+                        <Box>
+                            <h3>No Items Found</h3>
+                        </Box>
+                    )}
+                    {/* <Grid item lg={4} md={6} sm={6} xs={12}>
                         <TotalOrderLineChartCard isLoading={isLoading} />
                     </Grid>
                     <Grid item lg={4} md={12} sm={12} xs={12}>
@@ -39,10 +74,10 @@ const Dashboard = () => {
                                 <TotalIncomeLightCard isLoading={isLoading} />
                             </Grid>
                         </Grid>
-                    </Grid>
+                    </Grid> */}
                 </Grid>
             </Grid>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
                 <Grid container spacing={gridSpacing}>
                     <Grid item xs={12} md={8}>
                         <TotalGrowthBarChart isLoading={isLoading} />
@@ -51,7 +86,7 @@ const Dashboard = () => {
                         <PopularCard isLoading={isLoading} />
                     </Grid>
                 </Grid>
-            </Grid>
+            </Grid> */}
         </Grid>
     );
 };

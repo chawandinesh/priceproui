@@ -11,6 +11,7 @@ import themes from 'themes';
 
 // project imports
 import NavigationScroll from 'layout/NavigationScroll';
+import SnackbarComponent from 'ui-component/components/SnakbarComponent';
 
 // ==============================|| APP ||============================== //
 
@@ -22,6 +23,7 @@ const App = () => {
                 <CssBaseline />
                 <NavigationScroll>
                     <Routes />
+                    <SnackbarComponent />
                 </NavigationScroll>
             </ThemeProvider>
         </StyledEngineProvider>

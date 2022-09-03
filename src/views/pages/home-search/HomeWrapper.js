@@ -1,5 +1,4 @@
-import { styled } from '@mui/material/styles';
-
+import { styled } from 'utils/imports';
 // ==============================|| AUTHENTICATION 1 WRAPPER ||============================== //
 
 const HomeWrapper = styled('div')(({ theme }) => ({

@@ -15,6 +15,7 @@ import { IconMenu2 } from '@tabler/icons';
 import { makeStyles } from '@mui/styles';
 import { useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';
+import _ from 'lodash';
 
 const useStyles = makeStyles({
     authButton: {

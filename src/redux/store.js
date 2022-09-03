@@ -7,11 +7,20 @@ import { searchReducer } from './reducers/searchReducer';
 import { uiReducer } from './reducers/uiReducer';
 import { loginReducer } from './reducers/loginReducer';
 import { registerReducer } from './reducers/registerReducer';
+import { snackbarReducer } from './reducers/snackbarReducer';
+import { allTrackingItemsReducer } from './reducers/allTrackingProductsReducer';
 const persistConfig = {
     key: 'pricepro',
     storage
 };
-const rootReducer = combineReducers({ search: searchReducer, customization: uiReducer, login: loginReducer, register: registerReducer });
+const rootReducer = combineReducers({
+    search: searchReducer,
+    customization: uiReducer,
+    login: loginReducer,
+    register: registerReducer,
+    snackbar: snackbarReducer,
+    allTrackingItems: allTrackingItemsReducer
+});
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
