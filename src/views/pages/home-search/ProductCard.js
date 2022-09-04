@@ -12,6 +12,7 @@ import { MdAddLocation } from 'react-icons/md';
 import PriceTextPopover from './PriceTextPopover';
 import PropTypes from 'prop-types';
 import { isLoggedIn } from 'utils/imports';
+import { isLogin } from 'api';
 const useStyles = makeStyles((theme) => ({
     imageStyles: {
         objectFit: 'contain',
@@ -96,7 +97,7 @@ export default function ProductCard({
             <StoreImg store={store} />
             <PriceTextPopover anchorEl={anchorEl} setAnchorEl={setAnchorEl} productId={id} />
 
-            {enableAddToTracking && isLoggedIn && (
+            {enableAddToTracking && isLogin() && (
                 <Tooltip title="Add to tracking">
                     <Box className={classes.addToTracking}>
                         <MdAddLocation onClick={handleAddToTracking} />
