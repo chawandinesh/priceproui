@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 // material-ui
 import { styled, useTheme } from '@mui/material/styles';
 import { AppBar, Box, CssBaseline, Toolbar, useMediaQuery } from '@mui/material';
-PropTypes;
 // project imports
 import Breadcrumbs from 'ui-component/extended/Breadcrumbs';
 import Header from './Header';
@@ -135,11 +134,11 @@ const MainLayout = ({ showToggle = true, showSidebar = true, showSearchBar = fal
 };
 
 MainLayout.propTypes = {
-    showToggle: PropTypes.boolean,
-    showSidebar: PropTypes.boolean,
-    showSearchBar: PropTypes.boolean,
+    showToggle: PropTypes.bool,
+    showSidebar: PropTypes.bool,
+    showSearchBar: PropTypes.bool,
     title: PropTypes.string,
-    showNotification: PropTypes.boolean
+    showNotification: PropTypes.bool
 };
 
 export default MainLayout;

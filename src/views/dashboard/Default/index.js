@@ -11,29 +11,29 @@ import TotalIncomeDarkCard from './TotalIncomeDarkCard';
 import TotalIncomeLightCard from './TotalIncomeLightCard';
 import TotalGrowthBarChart from './TotalGrowthBarChart';
 import { gridSpacing } from 'utils/constant';
-import { getAllTrackingItems } from 'api';
+import { getAllTrackingItems, isLogin } from 'api';
 import { atnAllTrackingItemsActions } from 'redux/actions/allTrackingProductsActions';
-import { _, useDispatch, useSelector, Box } from 'utils/imports';
+import { _, useDispatch, useSelector, Box, isLoggedIn } from 'utils/imports';
 import ProductCard from 'views/pages/home-search/ProductCard';
+import { useNavigate } from 'react-router-dom';
 
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 
 const Dashboard = () => {
     const [isLoading, setLoading] = useState(true);
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const allTrackingItems = useSelector((state) => _.get(state, 'allTrackingItems.trackingItems'));
-    const getTrackingProducts = async () => {
-        try {
-            const trackingProducts = await getAllTrackingItems();
-            console.log(trackingProducts);
-        } catch (err) {}
-    };
 
     useEffect(() => {
-        dispatch(atnAllTrackingItemsActions());
-        getTrackingProducts();
-        setLoading(false);
-    }, []);
+        console.log('test');
+        if (isLogin()) {
+            dispatch(atnAllTrackingItemsActions());
+            setLoading(false);
+        } else {
+            navigate('/login');
+        }
+    }, [dispatch, navigate]);
 
     return (
         <Grid container spacing={gridSpacing}>
@@ -51,6 +51,8 @@ const Dashboard = () => {
                                     rating={each?.rating}
                                     id={each?.id}
                                     price={each?.bestPrice}
+                                    bestPrice={each?.bestPrice}
+                                    initialPrice={each?.initialPrice}
                                     inStock={each?.inStock}
                                     store={_.get(each, 'store')}
                                     enableAddToTracking={false}

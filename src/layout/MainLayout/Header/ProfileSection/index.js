@@ -39,6 +39,7 @@ import User1 from 'assets/images/users/user-round.svg';
 // assets
 import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons';
 import { atnLogout } from 'redux/actions/loginActions';
+import { PURGE } from 'redux-persist';
 
 // ==============================|| PROFILE MENU ||============================== //
 
@@ -58,8 +59,14 @@ const ProfileSection = () => {
      * */
     const anchorRef = useRef(null);
     const handleLogout = async () => {
-        dispatch(atnLogout());
-        navigate('/search');
+        dispatch({
+            type: PURGE,
+            key: 'pricepro',
+            result: () => {
+                navigate('/search');
+                location.reload();
+            }
+        });
     };
 
     const handleClose = (event) => {

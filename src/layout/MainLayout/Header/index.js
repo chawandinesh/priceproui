@@ -43,8 +43,6 @@ const AuthButtons = () => {
 const Header = ({ handleLeftDrawerToggle, showToggle = true, showSearchBar = true, title = 'PricePro', showNotification = true }) => {
     const loginDetails = useSelector((state) => _.get(state, 'login', ''));
     const theme = useTheme();
-    const isLogin = false;
-
     return (
         <>
             {/* logo & toggler button */}

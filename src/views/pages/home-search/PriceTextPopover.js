@@ -2,7 +2,7 @@ import { addToTracking } from 'api';
 import React, { useState } from 'react';
 import { atnShowSnackbar } from 'redux/actions/snackbarActions';
 import { _, useDispatch, makeStyles, IconButton, useTheme, FaPlus, Box, TextField, Popover, CircularProgress } from 'utils/imports';
-
+import PropTypes from 'prop-types';
 const useStyles = makeStyles({
     addIcon: {
         position: 'absolute',
@@ -92,3 +92,9 @@ export default function PriceTextPopover({ anchorEl, setAnchorEl, productId }) {
         </div>
     );
 }
+
+PriceTextPopover.propTypes = {
+    anchorEl: PropTypes.any,
+    setAnchorEl: PropTypes.any,
+    productId: PropTypes.number
+};

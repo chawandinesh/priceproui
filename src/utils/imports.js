@@ -6,9 +6,11 @@ import _ from 'lodash';
 import { Search } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import Snackbar from '@mui/material/Snackbar';
-
+import { isLogin } from 'api';
+const isLoggedIn = isLogin();
 export {
     _,
+    isLoggedIn,
     useDispatch,
     useSelector,
     FaPlus,

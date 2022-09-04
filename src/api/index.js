@@ -1,12 +1,28 @@
 import axios from 'axios';
 import _ from 'lodash';
 const baseUrl = 'https://api.pricepro.in';
-const state = JSON.parse(localStorage.getItem('persist:pricepro'));
-console.log(state, 'state');
-const loginDetails = JSON.parse(_.get(state, 'login'));
-console.log(loginDetails, 'login');
-const accessToken = `Bearer ${_.get(loginDetails, 'loginDetails.data.access')}`;
-console.log('token', accessToken);
+
+export const getAccessToken = () => {
+    const state = JSON.parse(localStorage.getItem('persist:pricepro'));
+    if (state) {
+        const loginDetails = JSON.parse(_.get(state, 'login', ''));
+        const accessToken = loginDetails && `Bearer ${_.get(loginDetails, 'loginDetails.data.access')}`;
+        return accessToken;
+    } else {
+        return '';
+    }
+};
+
+export const isLogin = () => {
+    const state = JSON.parse(localStorage.getItem('persist:pricepro'));
+    if (state) {
+        const loginDetails = JSON.parse(_.get(state, 'login', ''));
+        const userIdExists = Boolean(_.get(loginDetails, 'loginDetails.data.user.id'));
+        return userIdExists;
+    } else {
+        return false;
+    }
+};
 
 const getSearchResults = async (text) => {
     return await axios({
@@ -44,7 +60,7 @@ const addToTracking = async (data) => {
         url: `${baseUrl}/user/tracking/`,
         headers: {
             'Content-Type': 'application/json',
-            Authorization: accessToken
+            Authorization: getAccessToken()
         },
         data: data
     });
@@ -56,7 +72,7 @@ const getAllTrackingItems = async () => {
         url: `${baseUrl}/user/tracking/all/`,
         headers: {
             'Content-Type': 'application/json',
-            Authorization: accessToken
+            Authorization: getAccessToken()
         }
     });
 };

@@ -20,6 +20,7 @@ import {
     Typography,
     useMediaQuery
 } from '@mui/material';
+import { _ } from 'utils/imports';
 
 // third party
 import * as Yup from 'yup';
@@ -36,6 +37,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Google from 'assets/images/icons/social-google.svg';
 import { atnGetLoginToken } from 'redux/actions/loginActions';
 import { useNavigate } from 'react-router';
+import { isLogin } from 'api';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
@@ -57,7 +59,7 @@ const FirebaseLogin = ({ ...others }) => {
 
     useEffect(() => {
         if (_.get(loginDetails, 'loginDetails')) {
-            navigate('/dashboard');
+            // navigate('/dashboard');
         }
     }, [loginDetails, navigate]);
 
@@ -82,7 +84,7 @@ const FirebaseLogin = ({ ...others }) => {
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
-                        dispatch(atnGetLoginToken(values));
+                        dispatch(atnGetLoginToken(values, navigate));
                         if (scriptedRef.current) {
                             setStatus({ success: true });
                             setSubmitting(false);

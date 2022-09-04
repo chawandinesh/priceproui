@@ -2,10 +2,9 @@ import { Link } from 'react-router-dom';
 
 // material-ui
 import { ButtonBase, Typography } from '@mui/material';
-
+import PropTypes from 'prop-types';
 // project imports
 import config from 'config';
-import Logo from 'ui-component/Logo';
 
 // ==============================|| MAIN LOGO ||============================== //
 
@@ -26,4 +25,8 @@ const LogoSection = ({ title, showToggle }) => (
     </>
 );
 
+LogoSection.propTypes = {
+    title: PropTypes.string,
+    showToggle: PropTypes.bool
+};
 export default LogoSection;

@@ -9,9 +9,9 @@ import amzn from 'assets/images/stores/amzn.png';
 import fpkrt from 'assets/images/stores/fpkrt.png';
 import crma from 'assets/images/stores/crma.jpeg';
 import { MdAddLocation } from 'react-icons/md';
-import { addToTracking } from '../../../api';
 import PriceTextPopover from './PriceTextPopover';
-
+import PropTypes from 'prop-types';
+import { isLoggedIn } from 'utils/imports';
 const useStyles = makeStyles((theme) => ({
     imageStyles: {
         objectFit: 'contain',
@@ -50,6 +50,10 @@ const useStyles = makeStyles((theme) => ({
     },
     priceBest: {
         color: '#00b300'
+    },
+    initialPrice: {
+        color: '#000',
+        textDecoration: 'line-through'
     }
 }));
 
@@ -77,24 +81,14 @@ export default function ProductCard({
     rating,
     price = 0,
     inStock,
+    initialPrice = null,
     store,
     enableAddToTracking = false
 }) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const handleAddToTracking = async (event) => {
-        // const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
-        // };
-        // const data = {
-        //     product_id: id,
-        //     targetPrice: price
-        // };
-        // try {
-        //     const response = await addToTracking(data);
-        // } catch (err) {
-        //     console.log(err);
-        // }
     };
 
     return (
@@ -102,7 +96,7 @@ export default function ProductCard({
             <StoreImg store={store} />
             <PriceTextPopover anchorEl={anchorEl} setAnchorEl={setAnchorEl} productId={id} />
 
-            {enableAddToTracking && (
+            {enableAddToTracking && isLoggedIn && (
                 <Tooltip title="Add to tracking">
                     <Box className={classes.addToTracking}>
                         <MdAddLocation onClick={handleAddToTracking} />
@@ -139,11 +133,40 @@ export default function ProductCard({
                         currency: 'INR'
                     })}
                 </Typography>
+                {initialPrice && initialPrice !== price && (
+                    <Typography
+                        variant="subtitle1"
+                        margin="5px 0px"
+                        component="p"
+                        className={isDashboardItem ? classes.initialPrice : null}
+                    >
+                        {initialPrice.toLocaleString('en-IN', {
+                            maximumFractionDigits: 2,
+                            style: 'currency',
+                            currency: 'INR'
+                        })}
+                    </Typography>
+                )}
             </CardContent>
-            {/* <CardActions>
-                <Button size="small">Share</Button>
-                <Button size="small">Learn More</Button>
-            </CardActions> */}
         </Card>
     );
 }
+
+ProductCard.propTypes = {
+    id: PropTypes.number,
+    isDashboardItem: PropTypes.bool,
+    image: PropTypes.string,
+    productName: PropTypes.string,
+    desc: PropTypes.string,
+    link: PropTypes.string,
+    rating: PropTypes.string,
+    price: PropTypes.number,
+    inStock: PropTypes.bool,
+    store: PropTypes.string,
+    enableAddToTracking: PropTypes.bool,
+    initialPrice: PropTypes.any
+};
+
+StoreImg.propTypes = {
+    store: PropTypes.string
+};

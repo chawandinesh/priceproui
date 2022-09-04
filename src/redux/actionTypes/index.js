@@ -35,3 +35,5 @@ export const allTrackingItemsActionTypes = {
     ALL_TRACKING_ITEMS_SUCCESS: 'ALL_TRACKING_ITEMS_SUCCESS',
     ALL_TRACKING_ITEMS_FAIL: 'ALL_TRACKING_ITEMS_FAIL'
 };
+
+export const RESET = 'RESET';
