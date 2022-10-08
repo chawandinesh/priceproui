@@ -2,6 +2,16 @@ import axios from 'axios';
 import _ from 'lodash';
 const baseUrl = 'https://api.pricepro.in';
 
+const getProductHistory = async (productId) => {
+    return await axios({
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'GET',
+        url: `${baseUrl}/common/producthistory?product_id=${productId}`
+    });
+};
+
 export const getAccessToken = () => {
     const state = JSON.parse(localStorage.getItem('persist:pricepro'));
     if (state) {
@@ -76,4 +86,4 @@ const getAllTrackingItems = async () => {
         }
     });
 };
-export { getSearchResults, getAuthtoken, registerUser, getAllTrackingItems, addToTracking };
+export { getSearchResults, getAuthtoken, registerUser, getAllTrackingItems, addToTracking, getProductHistory };

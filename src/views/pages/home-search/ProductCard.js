@@ -7,7 +7,7 @@ import { makeStyles } from '@mui/styles';
 import { Box, Rating, Tooltip } from '@mui/material';
 import amzn from 'assets/images/stores/amzn.png';
 import fpkrt from 'assets/images/stores/fpkrt.png';
-import crma from 'assets/images/stores/crma.jpeg';
+import crma from 'assets/images/stores/crma.png';
 import { MdAddLocation } from 'react-icons/md';
 import PriceTextPopover from './PriceTextPopover';
 import PropTypes from 'prop-types';
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     },
     addToTracking: {
         position: 'absolute',
-        bottom: 10,
+        bottom: 30,
         right: 10,
         fontSize: '30px',
         cursor: 'pointer',
@@ -55,6 +55,14 @@ const useStyles = makeStyles((theme) => ({
     initialPrice: {
         color: '#000',
         textDecoration: 'line-through'
+    },
+    chromaImage: {
+        height: '23px',
+        width: '23px',
+        position: 'absolute',
+        top: 7,
+        objectFit: 'cover',
+        left: 7
     }
 }));
 
@@ -66,7 +74,7 @@ const StoreImg = ({ store }) => {
         case 'FPKT':
             return <img src={fpkrt} alt={store} className={classes.storeImage} />;
         case 'CRMA':
-            return <img src={crma} alt={store} className={classes.storeImage} />;
+            return <img src={crma} alt={store} className={classes.chromaImage} />;
         default:
             return null;
     }
@@ -137,7 +145,7 @@ export default function ProductCard({
                 {initialPrice && initialPrice !== price && (
                     <Typography
                         variant="subtitle1"
-                        margin="5px 0px"
+                        margin="5px 0px 2px 0px"
                         component="p"
                         className={isDashboardItem ? classes.initialPrice : null}
                     >

@@ -44,13 +44,18 @@ export default function PriceTextPopover({ anchorEl, setAnchorEl, productId }) {
         setLoading(true);
         try {
             const response = await addToTracking(data);
+            console.log(response);
             setLoading(false);
             setAnchorEl(null);
             dispatch(atnShowSnackbar('Successfully Added Target price', 'success'));
         } catch (err) {
-            console.log(err.response.data.message);
+            console.log(err.response.data.message, err.response.data.detail);
             setLoading(false);
-            dispatch(atnShowSnackbar(err.response.data.message, 'error'));
+            if (_.get(err, 'response.data.detail').includes('You do not have permission to perform this action')) {
+                dispatch(atnShowSnackbar('Email is not verified', 'error'));
+            } else {
+                dispatch(atnShowSnackbar(_.get(err, 'response.data.detail', ''), 'error'));
+            }
         }
     };
     return (

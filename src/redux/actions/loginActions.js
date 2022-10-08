@@ -8,7 +8,7 @@ const atnGetLoginToken = (data, navigate) => {
         await getAuthtoken(data)
             .then((res) => {
                 dispatch({ type: loginActionTypes.LOGIN_SUCCESS, data: res.data });
-                navigate('/dashboard');
+                navigate('/search');
             })
             .catch((err) => {
                 dispatch({ type: loginActionTypes.LOGIN_FAIL, errorText: _.get(err, 'response.data.detail', '') });

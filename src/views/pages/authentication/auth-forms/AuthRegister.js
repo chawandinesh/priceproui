@@ -250,6 +250,7 @@ const FirebaseRegister = ({ ...others }) => {
                             <PhoneInput
                                 placeholder="Enter phone number"
                                 theme={theme}
+                                defaultCountry="IN"
                                 value={values.phone_no}
                                 onChange={(value) => {
                                     setFieldValue('phone_no', value);

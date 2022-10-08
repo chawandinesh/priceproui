@@ -3,6 +3,9 @@ import HomeWrapper from './HomeWrapper';
 import { atnGetSearchResults } from 'redux/actions/searchActions';
 import ProductCard from './ProductCard';
 import { useDispatch, useSelector, makeStyles, Box, IconButton, CircularProgress, Grid, Search, _ } from 'utils/imports';
+import { HistoryChart } from 'ui-component/components/HistoryChart';
+import { Button, ButtonGroup } from '@mui/material';
+
 const useStyles = makeStyles({
     priceProTitle: {
         padding: '10px 0px'
@@ -24,11 +27,15 @@ const useStyles = makeStyles({
         fontSize: '20px',
         height: '50px',
         borderRadius: 20
+    },
+    historyChartContainer: {
+        marginTop: '50px'
     }
 });
 
 const HomeSearch = () => {
     const classes = useStyles();
+    const [filterType, setFilterType] = useState('All');
     const dispatch = useDispatch();
     const search = useSelector((state) => state.search);
     const { searchResults, error, loading } = search;
@@ -41,6 +48,8 @@ const HomeSearch = () => {
         dispatch(atnGetSearchResults(text));
     };
 
+    const filters = [{ name: 'Monthly' }, { name: 'Yearly' }, { name: 'All' }];
+
     return (
         <HomeWrapper>
             <Grid container direction="column" sx={{ minHeight: '100vh' }}>
@@ -52,6 +61,7 @@ const HomeSearch = () => {
                                     <Box position="relative" className={classes.textFieldContainer}>
                                         <input
                                             type="text"
+                                            placeholder="Search with product title or product link"
                                             className={classes.textField}
                                             onChange={handleChangeText}
                                             onKeyDownCapture={(event) => {
@@ -96,7 +106,6 @@ const HomeSearch = () => {
                                 <p>Something went wrong</p>
                             ) : (
                                 [...searchResults].map((each, idx) => {
-                                    console.log(each, idx);
                                     return (
                                         <Grid item xs={12} sm={6} lg={3} key={idx}>
                                             <ProductCard
@@ -115,6 +124,24 @@ const HomeSearch = () => {
                                     );
                                 })
                             )}
+                        </Grid>
+                        <Grid className={classes.historyChartContainer} maxWidth="md" container alignItems="center">
+                            {/* <Box alignSelf="center" justifyContent="center" display="flex" width="100%" marginY="10px">
+                                <ButtonGroup variant="contained" aria-label="outlined primary button group">
+                                    {filters.map((each) => (
+                                        <Button
+                                            variant={each.name === filterType ? 'contained' : 'outlined'}
+                                            onClick={() => {
+                                                setFilterType(each.name);
+                                            }}
+                                        >
+                                            {each.name}
+                                        </Button>
+                                    ))}
+                                </ButtonGroup>
+                            </Box> */}
+
+                            <HistoryChart />
                         </Grid>
                     </Grid>
                 </Grid>

@@ -36,4 +36,10 @@ export const allTrackingItemsActionTypes = {
     ALL_TRACKING_ITEMS_FAIL: 'ALL_TRACKING_ITEMS_FAIL'
 };
 
+export const productHistoryActionTypes = {
+    PRODUCT_HISTORY_LOADING: 'PRODUCT_HISTORY_LOADING',
+    PRODUCT_HISTORY_SUCCESS: 'PRODUCT_HISTORY_SUCCESS',
+    PRODUCT_HISTORY_FAIL: 'PRODUCT_HISTORY_FAIL'
+};
+
 export const RESET = 'RESET';
