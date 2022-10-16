@@ -2,16 +2,19 @@ import { useState } from 'react';
 import HomeWrapper from './HomeWrapper';
 import { atnGetSearchResults } from 'redux/actions/searchActions';
 import ProductCard from './ProductCard';
-import { useDispatch, useSelector, makeStyles, Box, IconButton, CircularProgress, Grid, Search, _ } from 'utils/imports';
+import { useDispatch, useSelector, makeStyles, Box, IconButton, CircularProgress, Grid, Search, _, Typography } from 'utils/imports';
 import { HistoryChart } from 'ui-component/components/HistoryChart';
-import { Button, ButtonGroup } from '@mui/material';
+import NoData from '../../../assets/images/noData.png';
 
 const useStyles = makeStyles({
     priceProTitle: {
         padding: '10px 0px'
     },
     textFieldContainer: {
-        margin: '20px 0px'
+        margin: '20px 0px 0px 0px',
+        '& input::placeholder': {
+            fontSize: '15px'
+        }
     },
     searchIcon: {
         position: 'absolute',
@@ -29,7 +32,8 @@ const useStyles = makeStyles({
         borderRadius: 20
     },
     historyChartContainer: {
-        marginTop: '50px'
+        marginTop: '50px',
+        margin: '0 auto'
     }
 });
 
@@ -61,7 +65,7 @@ const HomeSearch = () => {
                                     <Box position="relative" className={classes.textFieldContainer}>
                                         <input
                                             type="text"
-                                            placeholder="Search with product title or product link"
+                                            placeholder="Search with product title or link"
                                             className={classes.textField}
                                             onChange={handleChangeText}
                                             onKeyDownCapture={(event) => {
@@ -103,45 +107,63 @@ const HomeSearch = () => {
                                     </Grid>
                                 </Grid>
                             ) : error ? (
-                                <p>Something went wrong</p>
-                            ) : (
-                                [...searchResults].map((each, idx) => {
-                                    return (
-                                        <Grid item xs={12} sm={6} lg={3} key={idx}>
-                                            <ProductCard
-                                                desc={each?.storeProductID}
-                                                image={each?.image}
-                                                productName={each?.title}
-                                                link={each?.link}
-                                                rating={each?.rating}
-                                                id={each?.id}
-                                                price={each?.price}
-                                                inStock={each?.inStock}
-                                                store={_.get(each, 'store.name')}
-                                                enableAddToTracking={true}
-                                            />
-                                        </Grid>
-                                    );
-                                })
-                            )}
-                        </Grid>
-                        <Grid className={classes.historyChartContainer} maxWidth="md" container alignItems="center">
-                            {/* <Box alignSelf="center" justifyContent="center" display="flex" width="100%" marginY="10px">
-                                <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                                    {filters.map((each) => (
-                                        <Button
-                                            variant={each.name === filterType ? 'contained' : 'outlined'}
-                                            onClick={() => {
-                                                setFilterType(each.name);
-                                            }}
-                                        >
-                                            {each.name}
-                                        </Button>
-                                    ))}
-                                </ButtonGroup>
-                            </Box> */}
+                                <Grid container justifyContent="center">
+                                    <Grid item>
+                                        <img src={NoData} alt="no data" height={300} width={300} />
 
-                            <HistoryChart />
+                                        <Typography variant="h1" textAlign="center">
+                                            No products found
+                                        </Typography>
+                                    </Grid>
+                                </Grid>
+                            ) : (
+                                <>
+                                    <Grid container justifyContent="center" spacing={3}>
+                                        {[...searchResults].map((each, idx) => {
+                                            return (
+                                                <Grid item xs={12} sm={6} lg={3} key={idx}>
+                                                    <ProductCard
+                                                        desc={each?.storeProductID}
+                                                        image={each?.image}
+                                                        productName={each?.title}
+                                                        link={each?.link}
+                                                        rating={each?.rating}
+                                                        id={each?.id}
+                                                        price={each?.price}
+                                                        inStock={each?.inStock}
+                                                        store={_.get(each, 'store.name')}
+                                                        enableAddToTracking={true}
+                                                    />
+                                                </Grid>
+                                            );
+                                        })}
+                                    </Grid>
+                                    <Grid
+                                        className={classes.historyChartContainer}
+                                        maxWidth="md"
+                                        container
+                                        justifyContent="center"
+                                        alignItems="center"
+                                    >
+                                        {/* <Box alignSelf="center" justifyContent="center" display="flex" width="100%" marginY="10px">
+                                          <ButtonGroup variant="contained" aria-label="outlined primary button group">
+                                              {filters.map((each) => (
+                                                  <Button
+                                                      variant={each.name === filterType ? 'contained' : 'outlined'}
+                                                      onClick={() => {
+                                                          setFilterType(each.name);
+                                                      }}
+                                                  >
+                                                      {each.name}
+                                                  </Button>
+                                              ))}
+                                          </ButtonGroup>
+                                      </Box> */}
+
+                                        <HistoryChart />
+                                    </Grid>
+                                </>
+                            )}
                         </Grid>
                     </Grid>
                 </Grid>

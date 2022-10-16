@@ -13,6 +13,7 @@ import PriceTextPopover from './PriceTextPopover';
 import PropTypes from 'prop-types';
 import { isLoggedIn } from 'utils/imports';
 import { isLogin } from 'api';
+import { useNavigate } from 'react-router';
 const useStyles = makeStyles((theme) => ({
     imageStyles: {
         objectFit: 'contain',
@@ -95,9 +96,14 @@ export default function ProductCard({
     enableAddToTracking = false
 }) {
     const classes = useStyles();
+    const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const handleAddToTracking = async (event) => {
-        setAnchorEl(event.currentTarget);
+        if (isLogin()) {
+            setAnchorEl(event.currentTarget);
+        } else {
+            navigate('/login');
+        }
     };
 
     return (
@@ -105,7 +111,7 @@ export default function ProductCard({
             <StoreImg store={store} />
             <PriceTextPopover anchorEl={anchorEl} setAnchorEl={setAnchorEl} productId={id} />
 
-            {enableAddToTracking && isLogin() && (
+            {enableAddToTracking && (
                 <Tooltip title="Add to tracking">
                     <Box className={classes.addToTracking}>
                         <MdAddLocation onClick={handleAddToTracking} />

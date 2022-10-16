@@ -26,7 +26,6 @@ const Dashboard = () => {
     const allTrackingItems = useSelector((state) => _.get(state, 'allTrackingItems.trackingItems'));
 
     useEffect(() => {
-        console.log('test');
         if (isLogin()) {
             dispatch(atnAllTrackingItemsActions());
             setLoading(false);
@@ -60,7 +59,7 @@ const Dashboard = () => {
                             </Grid>
                         ))
                     ) : (
-                        <Box>
+                        <Box textAlign="center" width="100%">
                             <h3>No Items Found</h3>
                         </Box>
                     )}

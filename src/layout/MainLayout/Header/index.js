@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Avatar, Box, Button, ButtonBase } from '@mui/material';
+import { Avatar, Box, Button, ButtonBase, Grid, Tooltip, IconButton } from '@mui/material';
 
 // project imports
 import LogoSection from '../LogoSection';
@@ -13,10 +13,11 @@ import NotificationSection from './NotificationSection';
 // assets
 import { IconMenu2 } from '@tabler/icons';
 import { makeStyles } from '@mui/styles';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
-
+import { MdOutlineSpaceDashboard } from 'react-icons/md';
+import { BiSearch } from 'react-icons/bi';
 const useStyles = makeStyles({
     authButton: {
         margin: '5px'
@@ -41,56 +42,78 @@ const AuthButtons = () => {
 };
 
 const Header = ({ handleLeftDrawerToggle, showToggle = true, showSearchBar = true, title = 'PricePro', showNotification = true }) => {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const isSearch = location.pathname === '/search';
     const loginDetails = useSelector((state) => _.get(state, 'login', ''));
     const theme = useTheme();
     return (
-        <>
-            {/* logo & toggler button */}
-            <Box
-                sx={{
-                    width: 228,
-                    display: 'flex',
-                    [theme.breakpoints.down('md')]: {
-                        width: 'auto'
-                    }
-                }}
-            >
-                <Box component="span" sx={{ display: { xs: 'none', md: 'block' }, flexGrow: 1 }}>
-                    <LogoSection title={title} showToggle={showToggle} />
-                </Box>
-                {showToggle ? (
-                    <ButtonBase sx={{ borderRadius: '12px', overflow: 'hidden' }}>
-                        <Avatar
-                            variant="rounded"
-                            sx={{
-                                ...theme.typography.commonAvatar,
-                                ...theme.typography.mediumAvatar,
-                                transition: 'all .2s ease-in-out',
-                                background: theme.palette.secondary.light,
-                                color: theme.palette.secondary.dark,
-                                '&:hover': {
-                                    background: theme.palette.secondary.dark,
-                                    color: theme.palette.secondary.light
-                                }
-                            }}
-                            onClick={handleLeftDrawerToggle}
-                            color="inherit"
-                        >
-                            <IconMenu2 stroke={1.5} size="1.3rem" />
-                        </Avatar>
-                    </ButtonBase>
-                ) : null}
-            </Box>
-
-            {/* header search */}
-            {showSearchBar ? <SearchSection /> : null}
-            <Box sx={{ flexGrow: 1 }} />
-            <Box sx={{ flexGrow: 1 }} />
-
-            {/* notification & profile */}
-            {/* {showNotification ? <NotificationSection /> : null} */}
-            {loginDetails.loginDetails ? <ProfileSection /> : <AuthButtons />}
-        </>
+        <Box width="100%">
+            <Grid container justifyContent="space-between">
+                {isSearch && (
+                    <Grid item>
+                        <Box paddingLeft={5}>
+                            <IconButton></IconButton>
+                        </Box>
+                    </Grid>
+                )}
+                <Grid item>
+                    <Grid container alignItems="center">
+                        <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+                            <LogoSection title={title} showToggle={showToggle} />
+                        </Box>
+                        {showToggle ? (
+                            <ButtonBase sx={{ borderRadius: '12px', overflow: 'hidden', marginLeft: { xs: 0, md: 10 } }}>
+                                <Avatar
+                                    variant="rounded"
+                                    sx={{
+                                        ...theme.typography.commonAvatar,
+                                        ...theme.typography.mediumAvatar,
+                                        transition: 'all .2s ease-in-out',
+                                        background: theme.palette.secondary.light,
+                                        color: theme.palette.secondary.dark,
+                                        '&:hover': {
+                                            background: theme.palette.secondary.dark,
+                                            color: theme.palette.secondary.light
+                                        }
+                                    }}
+                                    onClick={handleLeftDrawerToggle}
+                                    color="inherit"
+                                >
+                                    <IconMenu2 stroke={1.5} size="1.3rem" />
+                                </Avatar>
+                            </ButtonBase>
+                        ) : null}
+                    </Grid>
+                </Grid>
+                <Grid item>
+                    {loginDetails.loginDetails ? (
+                        <Grid container alignItems="center">
+                            {!isSearch ? (
+                                <Box paddingRight={5}>
+                                    <Tooltip title={'Search Product'}>
+                                        <IconButton onClick={() => navigate('/search')}>
+                                            <BiSearch fontSize={30} color={theme.palette.primary.main} />
+                                        </IconButton>
+                                    </Tooltip>
+                                </Box>
+                            ) : (
+                                <Box paddingRight={5}>
+                                    <Tooltip title={'Dashboard'}>
+                                        <IconButton onClick={() => navigate('/dashboard')}>
+                                            <MdOutlineSpaceDashboard fontSize={30} color={theme.palette.primary.main} />
+                                        </IconButton>
+                                    </Tooltip>
+                                </Box>
+                            )}
+                            <ProfileSection />
+                        </Grid>
+                    ) : (
+                        <AuthButtons />
+                    )}
+                </Grid>
+            </Grid>
+        </Box>
     );
 };
 
