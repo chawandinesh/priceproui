@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -72,6 +72,7 @@ const Main = styled('main', {
 const MainLayout = ({ showToggle = true, showSidebar = true, showSearchBar = false, title = 'PricePro', showNotification = true }) => {
     const theme = useTheme();
     const matchDownMd = useMediaQuery(theme.breakpoints.down('lg'));
+    const [scrollActive, setScrollActive] = useState(false);
 
     // Handle left drawer
     const leftDrawerOpened = useSelector((state) => state.customization.opened);
@@ -88,11 +89,19 @@ const MainLayout = ({ showToggle = true, showSidebar = true, showSearchBar = fal
     const pathName = window.location.pathname;
     const mainLayout = () => {
         if (pathName === '/search') {
-            return { marginLeft: '20px' };
+            return { marginLeft: '20px', marginRight: '20px' };
         } else {
             return {};
         }
     };
+
+    window.addEventListener('scroll', (event) => {
+        if (!scrollActive) {
+            setScrollActive(true);
+        } else if (scrollActive && window.scrollY === 0) {
+            setScrollActive(false);
+        }
+    });
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -102,7 +111,7 @@ const MainLayout = ({ showToggle = true, showSidebar = true, showSearchBar = fal
                 enableColorOnDark
                 position="fixed"
                 color="inherit"
-                elevation={0}
+                elevation={scrollActive ? 5 : null}
                 sx={{
                     bgcolor: theme.palette.background.default,
                     transition: leftDrawerOpened ? theme.transitions.create('width') : 'none'
