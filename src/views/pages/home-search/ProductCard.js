@@ -14,6 +14,8 @@ import PropTypes from 'prop-types';
 import { isLoggedIn } from 'utils/imports';
 import { isLogin } from 'api';
 import { useNavigate } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { dialogActions } from 'redux/actions/dialogActions/index';
 const useStyles = makeStyles((theme) => ({
     imageStyles: {
         objectFit: 'contain',
@@ -96,13 +98,14 @@ export default function ProductCard({
     enableAddToTracking = false
 }) {
     const classes = useStyles();
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const handleAddToTracking = async (event) => {
         if (isLogin()) {
             setAnchorEl(event.currentTarget);
         } else {
-            navigate('/login');
+            dispatch(dialogActions.atnShowDialog('loginRequired', navigate, 'Login Required', 'Please login to track products'));
         }
     };
 

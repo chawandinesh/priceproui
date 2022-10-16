@@ -42,4 +42,9 @@ export const productHistoryActionTypes = {
     PRODUCT_HISTORY_FAIL: 'PRODUCT_HISTORY_FAIL'
 };
 
+export const dialogActionTypes = {
+    DIALOG_SHOW: 'DIALOG_SHOW',
+    DIALOG_HIDE: 'DIALOG_HIDE'
+};
+
 export const RESET = 'RESET';
