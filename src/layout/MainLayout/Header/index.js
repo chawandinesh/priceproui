@@ -25,7 +25,7 @@ const useStyles = makeStyles({
 });
 
 // ==============================|| MAIN NAVBAR / HEADER ||============================== //
-
+//
 const AuthButtons = () => {
     const navigate = useNavigate();
     const classes = useStyles();
