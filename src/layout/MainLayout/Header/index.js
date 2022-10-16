@@ -43,13 +43,14 @@ const AuthButtons = () => {
 
 const Header = ({ handleLeftDrawerToggle, showToggle = true, showSearchBar = true, title = 'PricePro', showNotification = true }) => {
     const location = useLocation();
+    const classes = useStyles();
     const navigate = useNavigate();
     const isSearch = location.pathname === '/search';
     const loginDetails = useSelector((state) => _.get(state, 'login', ''));
     const theme = useTheme();
     return (
         <Box width="100%">
-            <Grid container justifyContent="space-between">
+            <Grid className={classes.headerContainer} container justifyContent="space-between">
                 {isSearch && (
                     <Grid item>
                         <Box paddingLeft={5}>

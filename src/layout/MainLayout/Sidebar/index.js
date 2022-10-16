@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Box, Drawer, useMediaQuery } from '@mui/material';
+import { Box, Drawer, Grid, useMediaQuery } from '@mui/material';
 
 // third-party
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -21,7 +21,12 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
     const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
 
     const drawer = (
-        <>
+        <Grid
+            item
+            style={{
+                height: '100%'
+            }}
+        >
             <Box sx={{ display: { xs: 'block', md: 'none' } }}>
                 <Box sx={{ display: 'flex', p: 2, mx: 'auto' }}>
                     <LogoSection />
@@ -46,13 +51,22 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
                     {/* <MenuCard /> */}
                 </Box>
             </MobileView>
-        </>
+        </Grid>
     );
 
     const container = window !== undefined ? () => window.document.body : undefined;
 
     return (
-        <Box component="nav" sx={{ flexShrink: { md: 0 }, width: matchUpMd ? drawerWidth : 'auto' }} aria-label="mailbox folders">
+        <Box
+            component="nav"
+            style={{
+                boxShadow: drawerOpen
+                    ? '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)'
+                    : ''
+            }}
+            sx={{ flexShrink: { md: 0 }, width: matchUpMd ? drawerWidth : 'auto' }}
+            aria-label="mailbox folders"
+        >
             <Drawer
                 container={container}
                 variant={matchUpMd ? 'persistent' : 'temporary'}
